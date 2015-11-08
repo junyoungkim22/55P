@@ -5,6 +5,7 @@
 
 #include "Piece.h"
 #include "Space.h"
+#include "BuildingSpace.h"
 
 #define SPACE_NUM 13
 #define PIECE_NUM 1
