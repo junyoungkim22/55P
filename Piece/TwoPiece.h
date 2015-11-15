@@ -6,7 +6,7 @@
 class TwoPiece : public Piece
 {
 public:
-    TwoPiece(int HP, int position, int team);
+    TwoPiece(int HP, int position, int team, int num);
 };
 
 #endif // TWOPIECE
