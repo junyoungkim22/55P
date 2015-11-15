@@ -1,11 +1,17 @@
 #include "piece.h"
 
-Piece::Piece(int HP, int position, int team)
+Piece::Piece(int HP, int position, int team, int num)
 {
+    if(team == 0)
+        setPixmap(QPixmap(":/images/piece1.png"));
+    else
+        setPixmap(QPixmap(":/images/piece2.png"));
+
     this->HP = HP;
     maxHP = 100;
     this->position = position;
     this->team = team;
+    this->num = num;
 }
 
 int Piece::move(int move_num)
@@ -14,11 +20,13 @@ int Piece::move(int move_num)
     return position;
 }
 
-void Piece::get_damage(int damage)
+bool Piece::get_damage(int damage)
 {
     HP -= damage;
     if(HP <= 0)
-        die();
+        return true;
+    else
+        return false;
 }
 
 void Piece::get_heal(int heal)
@@ -56,4 +64,9 @@ int Piece::getPosition()
 int Piece::getTeam()
 {
     return team;
+}
+
+int Piece::choose()
+{
+    return num;
 }
