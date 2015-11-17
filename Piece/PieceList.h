@@ -5,6 +5,7 @@
 #include "space.h"
 #include "buildingspace.h"
 #include "healingspace.h"
+#include "popup.h"
 
 class PieceList
 {
