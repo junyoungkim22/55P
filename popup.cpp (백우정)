@@ -1,0 +1,16 @@
+#include "popup.h"
+#include "ui_popup.h"
+
+popUp::popUp(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::popUp)
+{
+    ui->setupUi(this);
+    connect(ui->yesButton, SIGNAL(clicked(bool)), this, SLOT(selectYes()));
+    connect(ui->noButton, SIGNAL(clicked(bool)), this, SLOT(selectNo()));
+}
+
+popUp::~popUp()
+{
+    delete ui;
+}
