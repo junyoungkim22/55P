@@ -58,7 +58,7 @@ void PieceList::build_action(int team, int piece_num, BuildingSpace *space)
 
     else if(owner == !team)
     {
-        bool steal;
+        popUp *steal = new ShowYout();  //생성자를 이용하여 초기화 시켜야 사용가능
 
         death_check = piece[team][piece_num]->get_damage(space->getDamagecost());
         if(death_check == true)
@@ -69,7 +69,8 @@ void PieceList::build_action(int team, int piece_num, BuildingSpace *space)
 
         if(piece[team][piece_num]->getHP() > space->getStealcost())
         {
-            if(steal == 1)
+            steal->show();
+            if(steal->getSelect() == 1)
                 piece[team][piece_num]->get_damage(space->getStealcost());
             space->setTire(team);
         }
@@ -77,11 +78,12 @@ void PieceList::build_action(int team, int piece_num, BuildingSpace *space)
 
     else
     {
-        bool buy;
+        popUp *buy = new ShowYout();  //생성자를 이용하여 초기화 시켜야 사용가능
 
         if(piece[team][piece_num]->getHP() > space->getBuycost())
         {
-            if(buy == 1)
+            buy->show();
+            if(buy->getSelect() == 1)
                 piece[team][piece_num]->get_damage(space->getBuycost());
             space->setTire(team);
         }
