@@ -25,17 +25,23 @@ int User1::ThrowYout()
     ShowYout *syout = new ShowYout();
 
     int yout = qrand()%16;
-    if(yout < 4)
-        yout = 0;//도
+    if(yout < 1)
+        yout = -1;
+    else if(yout < 4)
+        yout = 1;//도
     else if(yout < 10)
-        yout = 1;//개
+        yout = 2;//개
     else if(yout < 14)
-        yout = 2;//걸
+        yout = 3;//걸
     else if(yout < 15)
-        yout = 3;//윷
+        yout = 4;//윷
     else
-        yout = 4;//모
+        yout = 5;//모
 
+    if(location1<2 && location2<2 && location3<2)
+        if(yout == -1)
+            yout = 1;   //빽도 안되는 경우
+    
     syout->printyout(yout);
     syout->show();
 
