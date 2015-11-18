@@ -9,7 +9,6 @@ User1::User1(QWidget *parent) :
     ui(new Ui::User1)
 {
     ui->setupUi(this);
-
     connect(ui->throwButton, SIGNAL(clicked(bool)), this, SLOT(ThrowYout()));
     connect(ui->piece1, SIGNAL(clicked(bool)), this, SLOT(selectPiece1()));
     connect(ui->piece2, SIGNAL(clicked(bool)), this, SLOT(selectPiece2()));
