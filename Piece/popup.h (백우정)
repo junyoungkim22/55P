@@ -1,0 +1,36 @@
+#ifndef POPUP_H
+#define POPUP_H
+
+#include <QDialog>  //중간에 띄우는 팝업창이므로 dialog로 함, mainwindow인 display에서 사용
+
+namespace Ui {
+class popUp;
+}
+
+class popUp : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit popUp(QWidget *parent = 0);
+    int getSelect() { return select; }
+    ~popUp();
+
+private slots:
+    void selectYes()
+    {
+        select = 1;
+        close();
+    }
+    void selectNo()
+    {
+        select = 0;
+        close();
+    }
+
+private:
+    Ui::popUp *ui;
+    int select;
+};
+
+#endif // POPUP_H
