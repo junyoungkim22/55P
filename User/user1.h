@@ -34,6 +34,7 @@ private:
     int turnedPiece;
     int piece;
     int way;
+    int location1, location2, location3;    //piece.h를 include해서 위치정보를 받아올 수 있으면 좋겠다.
 };
 
 #endif // USER1_H
