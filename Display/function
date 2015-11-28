@@ -1,0 +1,130 @@
+void Display::capture(int captured_piece, int captured_team)
+{
+    die(captured_piece, captured_team);
+}
+
+void Display::unite(int p1, int p2)
+{
+    int HP = piece[current_team][p1]->getHP() + piece[current_team][p2]->getHP();
+    int position = piece[current_team][p1]->getPosition();
+
+    if(typeid(*piece[current_team][p1]) == typeid(TwoPiece) || typeid(*piece[current_team][p2]) == typeid(TwoPiece))
+    {
+        delete piece[current_team][p1];
+        delete piece[current_team][p2];
+
+        piece[current_team][p1] = new ThreePiece(HP, position, current_team, p1);
+    }
+    else
+    {
+        delete piece[current_team][p1];
+        delete piece[current_team][p2];
+
+        piece[current_team][p1] = new TwoPiece(HP, position, current_team, p1);
+    }
+}
+
+void Display::die(int piece_num, int team)
+{
+    if(typeid(*piece[team][piece_num]) == typeid(Piece))
+    {
+        delete piece[team][piece_num];
+        piece[team][piece_num] = new Piece(100, 0, team, piece_num);
+    }
+
+    else  if(typeid(*piece[team][piece_num]) == typeid(TwoPiece))
+    {
+        delete piece[team][piece_num];
+        for(int i=0; i<3; i++)
+            if(piece[team][i] == NULL)
+                piece[team][i] = new Piece(100, 0, team, i);
+    }
+
+    else
+    {
+        delete piece[team][piece_num];
+        for(int i=0; i<3; i++)
+            piece[team][i] = new Piece(100, 0, team, i);
+    }
+}
+
+void Display::turn_action(int piece_num)
+{
+    int position, check = 0, i;
+
+    position = piece[current_team][piece_num]->move(move_num);
+
+    //다른 말들과 겹쳤는지 확인
+    for(i=0; i<3; i++)
+    {
+        if(position == piece[current_team][i]->getPosition() && i != piece_num)
+            check = 1;
+
+        else if(position == piece[!current_team][i]->getPosition())
+            check = 2;
+
+        if(check != 0)
+            break;
+    }
+
+    /*if(check == 1)
+        unite(piece_num, i, team);
+    else if(check == 2)
+        capture(i, !team);*/
+
+    std::string type = board->getSpace(position)->getSpaceType();
+
+    /*if(type == "Building")
+        build_action(piece_num, board->getSpace(position));
+    else if(type == "Healing")
+        heal_action(piece_num, board->getSpace(position));
+    else
+        int a;//황금카드 칸*/
+}
+
+void Display::build_action(int piece_num, BuildingSpace *space)
+{
+    bool death_check;
+    int owner = space->getTire();
+
+    if(owner == current_team)
+        return;
+
+    else if(owner == !current_team)
+    {
+        bool steal;
+
+        death_check = piece[current_team][piece_num]->get_damage(space->getDamagecost());
+        if(death_check == true)
+        {
+            die(piece_num, current_team);
+            return;
+        }
+
+        if(piece[current_team][piece_num]->getHP() > space->getStealcost())
+        {
+            if(steal == 1)
+                piece[current_team][piece_num]->get_damage(space->getStealcost());
+            space->setTire(current_team);
+        }
+    }
+
+    else
+    {
+        bool buy;
+
+        if(piece[current_team][piece_num]->getHP() > space->getBuycost())
+        {
+            if(buy == 1)
+                piece[current_team][piece_num]->get_damage(space->getBuycost());
+            space->setTire(current_team);
+        }
+    }
+}
+
+void Display::heal_action(int piece_num, HealingSpace *space)
+{
+    int heal_num = space->getheal();
+
+    piece[current_team][piece_num]->get_heal(heal_num);
+}
